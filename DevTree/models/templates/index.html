@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+<!-- TITLE -->
+{% block title %}DevTree{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+<div id="content">
+	<!-- Tabs -->
+	<div class="list-title">
+		<a href="#" onclick="switchTab('.new');">
+			<span class="tab new">
+				New Projects
+			</span>
+		</a>
+
+		<a href="#" onclick="switchTab('.pop');">
+			<span class="tab pop" style="color:#b2b2b2;border-bottom:1px solid #c8c8c8">
+				Most Popular
+			</span>
+		</a>
+
+		<a href="#" onclick="switchTab('.rat');">
+			<span class="tab rat" style="color:#b2b2b2;border-bottom:1px solid #c8c8c8">
+				Highest Rated
+			</span>
+		</a>
+	</div>
+
+	<!-- Recent Projects -->
+	<div class="object-list new">
+		{% for project in project_new %}
+		<div class="object">
+			<div class="object-left">
+				<span class="logo"></span>
+				<span class="rating">UP - {{ project.rating.thumb_up }}, DOWN - {{ project.rating.thumb_down }}</span>
+			</div>
+
+			<div class="object-right">
+				<span class="title">{{ project.title }}</span>
+
+				<span class="description">{{ project.quick_description }}</span>
+
+				<span class="info">Page Views: {{ project.page_views }}</span>
+
+				<a href="/project/{{ project.slug }}"><span class="info">Profile</span></a>
+
+				<!--a href="{{ project.link }}"--><span class="info">Homepage</span><!--/a-->
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+	<!-- Popular Projects -->
+	<div class="object-list pop" style="display:none">
+		{% for project in project_pop %}
+		<div class="object">
+			<div class="object-left">
+				<span class="logo"></span>
+				<span class="rating">UP - {{ project.rating.thumb_up }}, DOWN - {{ project.rating.thumb_down }}</span>
+			</div>
+
+			<div class="object-right">
+				<span class="title">{{ project.title }}</span>
+
+				<span class="description">{{ project.quick_description }}</span>
+
+				<span class="info">Page Views: {{ project.page_views }}</span>
+
+				<a href="/project/{{ project.slug }}"><span class="info">Profile</span></a>
+
+				<!--a href="{{ project.link }}"--><span class="info">Homepage</span><!--/a-->
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+	<!-- Highest Rated Projects -->
+	<div class="object-list rat" style="display:none">
+		{% for project in project_rat %}
+		<div class="object">
+			<div class="object-left">
+				<span class="logo"></span>
+				<span class="rating">UP - {{ project.rating.thumb_up }}, DOWN - {{ project.rating.thumb_down }}</span>
+			</div>
+
+			<div class="object-right">
+				<span class="title">{{ project.title }}</span>
+
+				<span class="description">{{ project.quick_description }}</span>
+
+				<span class="info">Page Views: {{ project.page_views }}</span>
+
+				<a href="/project/{{ project.slug }}"><span class="info">Profile</span></a>
+
+				<!--a href="{{ project.link }}"--><span class="info">Homepage</span><!--/a-->
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

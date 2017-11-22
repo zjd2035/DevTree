@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}DevTree - Create a Project{% endblock %}
+
+{% block content %}
+<div id="content">
+	<span class="form-title">Create a Project</span>
+
+	<form id="projectform" action="" method="POST">
+		{% csrf_token %}
+		<!-- Title row -->
+		<div class="input-row">
+			<span class="input-left">
+				<label for="title">
+					<span class="label-text">Title:</span>
+				</label>
+			</span>
+			<span class="input-right">
+				<span class="field-container">
+					<span class="input-field">
+						<input type="text" name="title" id="title" class="input" placeholder="Project Title" autocomplete="off" value="{{ projectform.title.value|default_if_none:'' }}" autofocus />
+					</span>
+					<span class="input-message">
+						{{ projectform.title.errors.as_text|cut:"* " }}
+					</span>
+				</span>
+			</span>
+		</div>
+
+		<!-- Developers row -->
+		<div class="input-row">
+			<span class="input-left">
+				<label for="title">
+					<span class="label-text">Developers:</span>
+				</label>
+			</span>
+			<span class="input-right">
+				<span class="field-container">
+					<span class="input-field">
+						<input type="text" name="developers" id="developers" class="long-input" placeholder="Developer Usernames (seperate by commas)" autocomplete="off" value="{{ projectform.developers.value|default_if_none:'' }}" />
+					</span>
+					<span class="input-message">
+						{{ projectform.developers.errors.as_text|cut:"* " }}
+					</span>
+				</span>
+			</span>
+		</div>
+
+		<!-- Languages row -->
+		<div class="input-row">
+			<span class="input-left">
+				<label for="title">
+					<span class="label-text">Languages:</span>
+				</label>
+			</span>
+			<span class="input-right">
+				<span class="field-container">
+					<span class="input-field">
+						<input type="text" name="languages" id="languages" class="long-input" placeholder="Programming Languages (seperate by commas)" autocomplete="off" value="{{ projectform.languages.value|default_if_none:'' }}" />
+					</span>
+					<span class="input-message">
+						{{ projectform.languages.errors.as_text|cut:"* " }}
+					</span>
+				</span>
+			</span>
+		</div>
+
+		<!-- Quick Description row -->
+		<div class="input-row">
+			<span class="input-left">
+				<label for="title">
+					<span class="label-text">Quick Description:</span>
+				</label>
+			</span>
+			<span class="input-right">
+				<span class="field-container">
+					<span class="input-field">
+						<textarea id="quick_description" name="quick_description" class="textarea" cols="50" rows="2" placeholder="Max 255 Characters" value="{{ projectform.quick_description.value|default_if_none:'' }}"></textarea>
+					</span>
+					<span class="input-message">
+						{{ projectform.quick_description.errors.as_text|cut:"* " }}
+					</span>
+				</span>
+			</span>
+		</div>
+
+		<!-- Full Description row -->
+		<div class="input-row">
+			<span class="input-left">
+				<label for="title">
+					<span class="label-text">Full Description:</span>
+				</label>
+			</span>
+			<span class="input-right">
+				<span class="field-container">
+					<span class="input-field">
+						<span id="wysiwygPanel" style="width:670px;"></span>
+						<textarea id="full_description" name="full_description" class="textarea-nicedit" cols="40" rows="5" placeholder="{{ projectform.quick_description.value|default_if_none:'' }}"></textarea>
+					</span>
+					<span class="input-message">
+						{{ projectform.full_description.errors.as_text|cut:"* " }}
+					</span>
+				</span>
+			</span>
+		</div>
+
+		<!-- Submit row -->
+		<div class="input-row">
+			<span class="input-left"></span>
+			<span class="input-right">
+				<span class="field-container">
+					<span class="submit-field">
+						<input type="submit" class="submit" value="Create This Project" name="create_project" />
+					</span>
+
+					<a href="{% url 'index' %}">
+						<span class="close">CANCEL</span>
+					</a>
+				</span>
+			</span>
+		</div>
+	</form>
+</div>
+
+<script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+<script type="text/javascript">bkLib.onDomLoaded(function(){
+	var wysiwyg = new nicEditor();
+
+	wysiwyg.setPanel('wysiwygPanel');
+	wysiwyg.addInstance('full_description');
+});</script>
+{% endblock %}

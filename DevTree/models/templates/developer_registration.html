@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+<!-- TITLE -->
+{% block title %}DevTree Registration{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+<div id="content">
+	<span class="form-title">Create an Account</span>
+	
+	<form id="registerform" action="" method="POST">
+		{% csrf_token %}
+		<!-- Username row -->
+		<div class="input-row">
+			<span class="input-left">
+				<label for="username">
+					<span class="label-text">Username:</span>
+				</label>
+			</span>
+			<span class="input-right">
+				<span class="field-container">
+					<span class="input-field">
+						<input type="text" name="username" id="username" class="input" placeholder="Username" autocomplete="off" value="{{ registerform.username.value|default_if_none:'' }}" autofocus />
+					</span>
+					<span class="input-message">
+						{{ registerform.username.errors.as_text|cut:"* " }}
+					</span>
+				</span>
+			</span>
+		</div>
+
+		<!-- Email row -->
+		<div class="input-row">
+			<span class="input-left">
+				<label for="email">
+					<span class="label-text">Email:</span>
+				</label>
+			</span>
+			<span class="input-right">
+				<span class="field-container">
+					<span class="input-field">
+						<input type="text" name="email" id="email" class="input" placeholder="Enter your email address" autocomplete="off" value="{{ registerform.email.value|default_if_none:'' }}" />
+					</span>
+					<span class="input-message">
+						{{ registerform.email.errors.as_text|cut:"* " }}
+					</span>
+				</span>
+			</span>
+		</div>
+
+		<!-- Name row -->
+		<div class="input-row">
+			<span class="input-left">
+				<label for="first_name">
+					<span class="label-text">Name:</span>
+				</label>
+			</span>
+			<span class="input-right">
+				<span class="field-container">
+					<span class="input-field">
+						<input type="text" name="first_name" id="first_name" class="input" placeholder="First Name" autocomplete="off" value="{{ registerform.first_name.value|default_if_none:'' }}" />
+					</span>
+					<span class="input-message">
+						{{ registerform.first_name.errors.as_text|cut:"* " }}
+					</span>
+				</span>
+
+				<span class="field-container">
+					<span class="input-field">
+						<input type="text" name="last_name" id="last_name" class="input" placeholder="Last Name" autocomplete="off" value="{{ registerform.last_name.value|default_if_none:'' }}" />
+					</span>
+					<span class="input-message">
+						{{ registerform.last_name.errors.as_text|cut:"* " }}
+					</span>
+				</span>
+			</span>
+		</div>
+
+
+		<!-- Password row -->
+		<div class="input-row">
+			<span class="input-left">
+				<label for="password">
+					<span class="label-text">Password:</span>
+				</label>
+			</span>
+			<span class="input-right">
+				<span class="field-container">
+					<span class="input-field">
+						<input type="password" name="password" id="password" class="input" placeholder="Enter Password" autocomplete="off" />
+					</span>
+					<span class="input-message">
+						{{ registerform.password.errors.as_text|cut:"* " }}
+					</span>
+				</span>
+
+				<span class="field-container">
+					<span class="input-field">
+						<input type="password" name="password1" id="password1" class="input" placeholder="Verify Password" autocomplete="off" />
+					</span>
+					<span class="input-message">
+						{{ registerform.password1.errors.as_text|cut:"* " }}
+					</span>
+				</span>
+			</span>
+		</div>
+
+		<!-- Submit row -->
+		<div class="input-row">
+			<span class="input-left"></span>
+			<span class="input-right">
+				<span class="field-container">
+					<span class="submit-field">
+						<input type="submit" class="submit" value="Create Account" name="register_submission" />
+					</span>
+
+					<a href="{% url 'index' %}">
+						<span class="close">CANCEL</span>
+					</a>
+				</span>
+			</span>
+		</div>
+	</form>
+</div>
+{% endblock %}

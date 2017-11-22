@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>{% block title %}{% endblock %}</title>
+
+	<link rel="stylesheet" type="text/css" href="/static/css/styles.css" />
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script language="javascript" src="/static/js/overlay.js"></script>
+</head>
+<body>
+	<div id="full-wrapper">
+		<a id="overlay-shadow" onclick="closeOverlay();" href="#"></a>
+
+		<!-- Favorites Overlay -->
+		<div class="favorites-overlay">
+			<div class="overlay-container">
+				<span class="overlay-title">Favorites</span>
+				<a class="overlay-close" onclick="closeOverlay();" href="#">X</a>
+			</div>
+		</div>
+
+		<!-- Messages Overlay -->
+		<div class="messages-overlay">
+			<div class="overlay-container">
+				<span class="overlay-title">Messages</span>
+				<a class="overlay-close" onclick="closeOverlay();" href="#">X</a>
+			</div>
+		</div>
+
+		<!-- Projects Overlay -->
+		<div class="projects-overlay">
+			<div class="overlay-container">
+				<span class="overlay-title">My Projects</span>
+				<a class="overlay-close" onclick="closeOverlay();" href="#">X</a>
+			</div>
+
+			<a class="overlay-link" href="/create_project/">Create a Project</a>
+		</div>
+
+		<!-- Login Overlay -->
+		{% if loginform.errors %}
+		<script>
+		$(function(){
+			showOverlay('login-overlay');
+		});
+		</script>
+		{% endif %}
+		<div class="login-overlay">
+			<div class="overlay-container">
+				<span class="overlay-title">Log In</span>
+				<a class="overlay-close" onclick="closeOverlay();" href="#">X</a>
+			</div>
+
+			<form id="loginform" class="overlay-form" action="" method="POST">
+				{% csrf_token %}
+				<!-- Errors -->
+				{% if loginform.username.errors %}
+				<span class="overlay-error">{{ loginform.username.errors.as_text|cut:"* " }}</span>
+				{% endif %}
+
+				<!-- Username -->
+				<input type="text" name="username" id="username" class="overlay-input" placeholder="Enter your Username" value="{{ loginform.username.value|default_if_none:''}}" autocomplete="off" /><br>
+
+				<!-- Password -->
+				<input type="password" name="password" id="password" class="overlay-input" placeholder="Enter your Password" /><br>
+
+				<input type="submit" class="overlay-submit" value="Log In" name="login_submission" />
+			</form>
+
+			<a class="overlay-link" href="/account_recover">Can't Log In?</a>
+		</div>
+		<!-- End of Login Overlay -->
+
+		<!-- Toolbar -->
+		<div id="toolbar">
+			<div id="tb-container">
+				<!-- Title -->
+				<a href="{% url 'index' %}">
+					<span class="title">
+						<span class="title-pt1">Developer</span>
+						<span class="title-pt2">Tree</span>
+					</span>
+				</a>
+
+				<!-- Search Field -->
+				<form id="searchform" action="" method="POST">
+					<input type="text" name="search" id="search" class="input" autocomplete="off" />
+					<input type="submit" class="submit" value="Search" name="search_submission" />
+				</form>
+
+				<!-- Authorized Controls -->
+				{% if user.is_authenticated %}
+				<a class="control" href="/logout">Logout</a>
+				<a class="control" onclick="showOverlay('favorites-overlay');" href="#">Favorites</a>
+				<a class="control" onclick="showOverlay('messages-overlay');" href="#">Messages</a>
+				<a class="control" onclick="showOverlay('projects-overlay');" href="#">My Projects</a>
+				<a class="control" href="/developer/{{ current_user.slug }}" href="#">My Profile</a>
+
+				<!-- Unauthorized Controls -->
+				{% else %}
+				<a class="control" href="/developer_registration">Sign Up</a>
+				<a class="control" onclick="showOverlay('login-overlay');" href="#">Login</a>
+				{% endif %}
+			</div>
+		</div>
+		{% block content %}
+
+		{% endblock %}
+		<div id="footer">
+			<div id="ft-container">
+				Incomplete Footer.<br>Other incomplete features: Favoriting, Requesting Help, Image Uploading, Messaging, Account Recovery and Project Links<br>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

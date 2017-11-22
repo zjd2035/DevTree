@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}DevTree - {{ pp_title }}{% endblock %}
+
+{% block content %}
+<div id="content">
+	<div class="action-bar">
+		<span class="title">{{ pp_title }}</span>
+
+		<span class="actions">
+			{% if project_profile.owner == current_user %}
+			<span class="toggle" data-target="edit">Edit</span>
+			<span class="toggle" data-target="info" style="border-bottom:2px solid #cccccc;">View</span>
+			{% else %}
+			<span class="action-btn">Comment</span>
+			<span class="action-btn">Request</span>
+			{% endif %}
+		</span>
+	</div>
+
+	{{ editprojectform.quick_description.errors.as_text }}
+	{{ editprojectform.full_description.errors.as_text }}
+	<form id="editprojectform" action="" method="POST">
+		{% csrf_token %}
+		<div class="page-left">
+			<span class="logo">
+			</span>
+
+			<span class="view-rating">
+				{{ pp_rating|safe }}  Views: {{ pp_views }}
+			</span>
+		</div>
+
+		<div class="page-right">
+			<!-- Languages -->
+			<span class="label">
+				Languages: 
+			</span>
+			<span class="info">
+				{{ pp_languages }}
+			</span>
+			<span class="edit">
+				<input type="text" name="languages" class="input" autocomplete="off" value="{{ pp_languages }}" />
+			</span>
+
+			<br>
+			<!-- Developers -->
+			<span class="label">
+				Developers:
+			</span>
+			<span class="info">
+				{{ pp_developers|safe }}
+			</span>
+			<span class="edit">
+				<input type="text" name="developers" class="input" autocomplete="off" value="{{ pp_edit_developers }}" />
+			</span>
+
+			<br>
+			<!-- Quick Overview -->
+			<span class="label">
+				Overview:
+			</span>
+			<span class="info">
+				{{ pp_quick }}
+			</span>
+			<span class="edit">
+				<input type="text" id="quick_description" name="quick_description" class="input" autocomplete="off" value="{{ pp_quick }}" />
+			</span>
+
+			<br>
+			<!-- Full Description -->
+			<span class="label">
+				Description:
+			</span>
+			<span class="info">
+				{{ pp_full|safe }}
+			</span>
+			<span class="edit">
+				<div id="wysiwygPanel" style="width:700px;"></div>
+				<textarea id="full_description" name="full_description" class="textarea-nicedit" cols="40" rows="5">{{ pp_full|safe }}</textarea>
+			</span>
+		</div>
+
+		<div style="clear:both"></div><br>
+
+		<!-- Submit -->
+		<div class="object-edit-submit">
+			<span class="submit-field">
+				<input type="submit" class="submit" value="Finish Editing Project" name="project_edited" />
+			</span>
+			<a href="{% url 'index' %}">
+				<span class="close">CANCEL</span>
+			</a>
+		</div>
+	</form>
+
+	comments down here
+</div>
+
+<script>
+$(document).ready(function(){
+	$( "#content .toggle" )
+		.on( "mouseover", function() {
+			$(this).css( "color", "#ffffff" );
+		})
+		.on( "click", function() {
+			$( "#content .toggle" ).css( "border-bottom", "none" );
+			$(this).css( "border-bottom", "2px solid #cccccc" );
+
+			var target = $(this).data('target');
+			if( target == "edit" ){
+				$( "#content .info" ).hide();
+				$( "#content .edit" ).css( "display", "inline-block" );
+				$( "#content .object-edit-submit" ).css( "display", "block" );
+			} else {
+				$( "#content .edit" ).hide();
+				$( "#content .object-edit-submit" ).hide();
+				$( "#content .info" ).css( "display", "inline-block" );
+			}
+		})
+		.on( "mouseout", function() {
+			$(this).css( "color", "#c8c8c8" );
+		})
+})
+</script>
+
+<script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+<script type="text/javascript">bkLib.onDomLoaded(function(){
+	var wysiwyg = new nicEditor();
+
+	wysiwyg.setPanel('wysiwygPanel');
+	wysiwyg.addInstance('full_description');
+});</script>
+{% endblock %}
